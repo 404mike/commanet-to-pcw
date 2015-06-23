@@ -17,140 +17,153 @@ Understanding the schema of the database is difficult as there is no relationshi
 
 score
 -----
- test
+ Not sure - album id?
 
 rem
 ---
-test
+Table that holds information about the author and description for the image.
+      `recid`  - Image id
+      `rem`    - Doesn't look useful
+      `author` - author of the image
+      `rem_ID` - not sure
+      `RemType`- empty
+      `RemText`- Image description
 
 LPlan
 -----
-test 
+Not sure 
 
 comms
 -----
-test 
+Album details? 
 
 album
 -----
-test 
+Album images. First column looks to be the album id and second column looks to be the iamge id. 
 
 albums
 ------
-test
+Probably album title
  
-
 audio
 -----
-test 
+No audio in the test files, looks like a id and filename of audio file 
 
 passwords
 ---------
-test 
+Don't know why they have this, ignore it. 
 
 harbour
 -------
-test 
+Doesn't look like anything relevant to us. 
 
 photo
 -----
-test 
+Table that connects item id to item filename 
 
 donor
 -----
-test 
+Looks to be a table to conect userid to username 
 
 1
 -
-test
+Not sure
 
 2
 -
-test
+Not sure
 
 3
 -
-test
+Not sure
 
 4
 -
-test
+Not sure
 
 5
 -
-test
+Not sure
 
 6
 -
-test 
+Not sure 
 
 7
 -
-test 
+Not sure 
 
 8
 -
-test
+Not sure
 
 9
 -
-test
+Not sure
 
 10
 --
-test
+Not sure
 
 11
 --
-test
+Not sure
 
 12
 --
-test
+Not sure
 
 13
 --
-test
+Contains dates for the image
+      `recid`     varchar (20), 
+      `item`      int, 
+      `dDate`     datetime
 
 14
 --
-test
+Not sure what this does, has true or false values - 0|1
 
 15
 --
-test
+Possibly location name
 
 16
 --
-test
+Looks to hold tagging coordinates
 
 17
 --
-test
+Looks to contain the title for the image
+      `recid`     varchar (20), 
+      `item`      varchar (255), 
+      `Meta_Number` varchar (255), 
+      `Meta_Date`   datetime, 
+      `Meta_Data`   varchar (255)
 
 18
 --
-test
+Not sure
 
 19
 --
-test
+Not sure
 
 20
 --
-test 
+Not sure 
 
 21
 --
-test
+Not sure
 
 22
 --
-test
+Not sure
 
 23
 --
-test
+Not sure
 
 #SQL Schema
 
