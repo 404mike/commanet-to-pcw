@@ -29,6 +29,9 @@ class CommanetTransform {
  
     // Add a location to the photos
     $this->addLocation();
+
+    // Create CSV
+    $this->createCsv();
   }
 
 
@@ -41,6 +44,7 @@ class CommanetTransform {
 
     foreach($data as $d) {
       $this->items[$d['recid']]['file'] = $d['photo_file'];
+      $this->items[$d['recid']]['id'] = $d['recid'];
     }
   }
 
@@ -67,7 +71,7 @@ class CommanetTransform {
     foreach($data as $d) {
       $location = $d['item'];
       if(in_array($location, $this->locations)) {
-        echo 'noooo';
+        // echo 'noooo';
         $this->items[$d['recid']]['location'] = ['location' => $location , 'lat_lng' => $this->locations[$location]];
       }else{
         $geo_data = $this->getLatLng($location);
@@ -159,13 +163,273 @@ class CommanetTransform {
     curl_close($ch);
 
     $geoArr = json_decode($file_contents,true);
-    // echo '<pre>' , print_r($geoArr) , '</pre>';
+
     $geoLocation = $geoArr['results'][0]['geometry']['location'];
     $lat = $geoLocation['lat'];
     $lng = $geoLocation['lng'];
 
     return $lat.','.$lng;
   }
+
+  /**
+   *
+   */
+  public function createCsv()
+  {
+    $list = array(
+      array(
+        'UC1',
+        'UC2',
+        'UC3',
+        'UC4',
+        'UC5',
+        'UC6',
+        'UC7',
+        'UC8',
+        'UC9',
+        'UC10',
+        'UC11',
+        'UC12',
+        'UC13',
+        'UC14',
+        'UC15',
+        'UC16',
+        'UC17',
+        'UC18',
+        'UC19',
+        'UC20',
+        'UC21',
+        'UC22',
+        'UC23',
+        'UC24',
+        'UC25',
+        'UC26',
+        'UC27',
+        'UC28',
+        'UC29',
+        'UC30',
+        'UC31',
+        'UC32',
+        'UC33',
+        'UC34',
+        'all_images'
+      ),
+      
+      array(
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        ''
+      ),
+      
+      array(
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        ''
+      ),
+      
+      
+      array(
+        'Image Identifier',
+        'Parent ID*',
+        'Page Order*',
+        'Image/File Name',
+        'Title EN',
+        'Title CY',
+        'Description EN',
+        'Description CY',
+        'Item type',
+        'Tags EN',
+        'Tags CY',
+        'Date',
+        'Owner',
+        'Creator',
+        'Website en',
+        'Website cy',
+        'What facet',
+        'When facet',
+        'Location (lat, lon)',
+        'Location description en',
+        'Location description cy',
+        'Right Type 1',
+        'Right Holder 1 EN',
+        'Right Holder 1 CY',
+        'Begin Date 1',
+        'Right Type 2',
+        'Right Holder 2 EN',
+        'Right Holder 2 CY',
+        'Begin Date 2',
+        'Right Type 3',
+        'Right Holder 3 EN',
+        'Right Holder 3 CY',
+        'Begin Date 3',
+        'Addional rights'
+      )
+    );
+    
+    foreach ($this->items as $item => $value) {
+      
+      $date = $value['date'];
+      
+      $dateFacet = substr_replace($date , '0' , -1 , 4);  
+      $dateFacetArr = [
+        '17' => '1800',
+        '18' => '1810',
+        '19' => '1820',
+        '20' => '1830',
+        '21' => '1840',
+        '22' => '1850',
+        '23' => '1860',
+        '24' => '1870',
+        '25' => '1880',
+        '26' => '1890',
+        '28' => '1900',
+        '29' => '1910',
+        '30' => '1920',
+        '31' => '1930',
+        '32' => '1940',
+        '33' => '1950',
+        '34' => '1960',
+        '35' => '1970',
+        '36' => '1980',
+        '37' => '1990',
+        '39' => '2000',
+        '40' => '2010'
+      ];
+      $dateFacetFinal = array_search($dateFacet , $dateFacetArr);
+
+      if(isset($value['description'])) {
+        $description = $value['description'];
+      }else{
+        $description = $value['title'];
+      }
+
+
+      if(isset($value['author'])) {
+        $author = $value['author'];
+      }else{
+        $author = 'unknown';
+      }
+      
+      array_push($list, array(
+        $value['id'], // Image Identifier
+        '', // Parent ID*
+        '', // Page Order*
+        $value['file'], // Image/File Name
+        $value['title'], // Title EN
+        $value['title'], // Title CY
+        $description, // Description EN
+        $description, // Description CY
+        '', // Item type
+        '', // Tags EN
+        '', // Tags CY
+        $value['date'].'-01-01', // Date
+        $author, // Owner
+        $author, // Creator
+        '', // Website en
+        '', // Website cy
+        '', // What facet
+        $dateFacetFinal, // When facet
+        '', // Location (lat, lon)
+        '', // Location description en
+        '', // Location description cy
+        '', // Right Type 1
+        '', // Right Holder 1 EN
+        '', // Right Holder 1 CY
+        '', // Begin Date 1
+        '', // Right Type 2
+        '', // Right Holder 2 EN
+        '', // Right Holder 2 CY
+        '', // Begin Date 2
+        '', // Right Type 3
+        '', // Right Holder 3 EN
+        '', // Right Holder 3 CY
+        '', // Begin Date 3
+        ''  // Addional rights
+      ));
+    }
+    
+    $title = (string) $value['title'];
+    $title = strtolower($title);
+    $title = str_replace(array(
+      '/',
+      ',',
+      '-',
+      '.'
+    ), '', $title);
+    $title = str_replace(' ', '_', $title);
+    
+    $fp = fopen($this->csv_path . '/' . $title . '.csv', 'w');
+    
+    foreach ($list as $fields) {
+      fputcsv($fp, $fields , ',' , '"');
+    }
+    
+    fclose($fp);
+    
+  }
+
 
 }
 
