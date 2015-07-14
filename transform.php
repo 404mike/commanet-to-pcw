@@ -391,9 +391,9 @@ class CommanetTransform {
         '', // Website cy
         '', // What facet
         $dateFacetFinal, // When facet
-        '', // Location (lat, lon)
-        '', // Location description en
-        '', // Location description cy
+        $value['location']['lat_lng'], // Location (lat, lon)
+        $value['location']['location'], // Location description en
+        $value['location']['location'], // Location description cy
         '', // Right Type 1
         '', // Right Holder 1 EN
         '', // Right Holder 1 CY
